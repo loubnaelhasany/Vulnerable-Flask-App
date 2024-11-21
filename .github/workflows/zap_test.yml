@@ -25,6 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests python-owasp-zap-v2.4
 
+      # Install PyRaider
+      - name: Install PyRaider
+        run: pip install pyraider
+
+      # Run PyRaider security scan
+      - name: Run PyRaider Scan
+        run: pyraider scan
+
       # Print working directory
       - name: Get Working Directory
         run: echo "$(pwd)"
