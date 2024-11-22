@@ -1,0 +1,37 @@
+name: Pyraider Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Étape 1 : Vérification du dépôt
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Étape 2 : Installer Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    # Étape 3 : Installer Pyraider
+    - name: Install Pyraider
+      run: pip install pyraider
+
+    # Étape 4 : Exécuter Pyraider et générer un rapport JSON
+    - name: Run Pyraider Scan
+      run: pyraider scan --output-format json --output-file pyraider-report.json
+
+    # Étape 5 : Upload le fichier JSON comme artefact
+    - name: Upload Pyraider Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: pyraider-report
+        path: pyraider-report.json
